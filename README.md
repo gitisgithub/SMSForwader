@@ -24,7 +24,7 @@
 ## Инструкция по сборке
 1. Склонировать репозиторий:
 ```
-git clone https://github.com/your-username/sms-forwarder-telegram.git
+git clone https://github.com/gitisgithub/SMSForwader.git
 cd sms-forwarder-telegram
 ```
 
