@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="16dp">
+
+    <!-- Заголовок «Инструкция» -->
+    <TextView
+        android:id="@+id/textViewGuideTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="как пользоваться"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"/>
+
+    <!-- Основной текст (шаги) -->
+    <TextView
+        android:id="@+id/textViewGuide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Логотип (крутится в 3D) -->
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/mylogo"/>
+
+    <!-- Текст об авторе -->
+    <TextView
+        android:id="@+id/textViewAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"/>
+
+    <!-- Кнопка «ВК» -->
+    <Button
+        android:id="@+id/buttonVK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Моя страничка ВКонтакте =)"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Кнопка «Телеграм» -->
+    <Button
+        android:id="@+id/buttonTelegram"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ТГ-канал (подписаццо)"/>
+
+</LinearLayout>
