@@ -25,7 +25,7 @@
 1. Склонировать репозиторий:
 ```
 git clone https://github.com/gitisgithub/SMSForwader.git
-cd sms-forwarder-telegram
+cd SMSForwarder
 ```
 
 2. **Открыть** проект в Android Studio.
