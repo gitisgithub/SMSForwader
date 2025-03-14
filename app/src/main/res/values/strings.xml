@@ -11,7 +11,7 @@
     <string name="add_manual_sender">Добавить вручную в список</string>
     <string name="enter_manual_sender">Введите отправителя вручную</string>
     <string name="save_settings">Сохранить настройки</string>
-
+    <string name="easter_score_format">Очки: %1$d</string>
     <!-- Новые -->
     <string name="menu_about">О программе</string>
     <string name="title_about">О программе</string>

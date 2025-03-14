@@ -58,7 +58,7 @@ class AboutActivity : AppCompatActivity() {
 
         val buttonTelegram = findViewById<Button>(R.id.buttonTelegram)
         buttonTelegram.setOnClickListener {
-            val tgUrl = "https://t.me/your_channel"
+            val tgUrl = "https://t.me/famelessness"
             startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, Uri.parse(tgUrl)))
         }
 

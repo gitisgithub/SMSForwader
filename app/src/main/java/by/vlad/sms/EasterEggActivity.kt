@@ -2,24 +2,26 @@ package by.vlad.sms
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import kotlin.random.Random
 
 class EasterEggActivity : AppCompatActivity() {
 
+    private lateinit var progressBarLife: LinearProgressIndicator
     private lateinit var textScore: TextView
-    private lateinit var textTimer: TextView
     private lateinit var textQuestion: TextView
     private lateinit var buttonTrue: Button
     private lateinit var buttonFalse: Button
 
     private var score = 0
-    private var totalQuestions = 0
-    private var timeLeftMs = 30_000L // 30 секунд на игру
+    private var life = 100
 
     private lateinit var timer: CountDownTimer
 
@@ -32,31 +34,35 @@ class EasterEggActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Можно сделать Activity полноэкранной:
-        // window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_easter_egg)
 
         textScore = findViewById(R.id.textScore)
-        textTimer = findViewById(R.id.textTimer)
         textQuestion = findViewById(R.id.textQuestion)
         buttonTrue = findViewById(R.id.buttonTrue)
         buttonFalse = findViewById(R.id.buttonFalse)
+        progressBarLife = findViewById(R.id.progressBarLife)
 
-        // Запускаем таймер на 30 секунд
-        timer = object : CountDownTimer(timeLeftMs, 1000) {
+        // Устанавливаем max=100 (это доступно и на старых API)
+        progressBarLife.max = 100
+
+        // Начинаем со 100% без анимации (нормально на любом API)
+        setProgressCompat(100, animate = false)
+
+        // Таймер на Long.MAX_VALUE, каждую секунду уменьшаем life
+        timer = object : CountDownTimer(Long.MAX_VALUE, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                val seconds = millisUntilFinished / 1000
-                textTimer.text = "Время: $seconds"
+                life--
+                if (life < 0) life = 0
+                setProgressCompat(life, animate = true)
+                if (life == 0) {
+                    showGameOverDialog("Время вышло! Полоса опустела.")
+                }
             }
-            override fun onFinish() {
-                // Время вышло
-                endGame()
-            }
+            override fun onFinish() { /* никогда не вызывается, т.к. Long.MAX_VALUE */ }
         }
         timer.start()
 
-        // Генерируем первый вопрос
-        nextQuestion()
+        textScore.text = getString(R.string.easter_score_format, score)
 
         buttonTrue.setOnClickListener {
             checkAnswer(true)
@@ -64,11 +70,25 @@ class EasterEggActivity : AppCompatActivity() {
         buttonFalse.setOnClickListener {
             checkAnswer(false)
         }
+
+        nextQuestion()
+    }
+
+    /**
+     * Обновляем прогресс. Если API >= 24, делаем анимированно, иначе — без анимации.
+     */
+    private fun setProgressCompat(value: Int, animate: Boolean) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            progressBarLife.setProgress(value, animate)
+        } else {
+            // Старый метод без анимации
+            progressBarLife.progress = value
+        }
     }
 
     private fun nextQuestion() {
         val (question, isCorrect) = generateExpression()
-        textQuestion.tag = isCorrect // Храним правильность в tag
+        textQuestion.tag = isCorrect
         textQuestion.text = question
     }
 
@@ -76,43 +96,44 @@ class EasterEggActivity : AppCompatActivity() {
         val isCorrect = textQuestion.tag as? Boolean ?: false
         if (userSaidTrue == isCorrect) {
             score++
+            // При верном ответе немного восстанавливаем life
+            life += 10
+            if (life > 100) life = 100
         } else {
-            score--
+            // При неверном ответе уменьшаем жизнь сильнее
+            life -= 50
+            if (life < 0) life = 0
         }
-        totalQuestions++
-        textScore.text = "Счёт: $score"
+        setProgressCompat(life, animate = true)
 
-        // Можно задать лимит вопросов (например, 10), или пусть игра идёт до истечения таймера
-        if (totalQuestions >= 20) {
-            endGame()
+        // Вместо конкатенации строк, используем getString с placeholder (см. ниже)
+        textScore.text = getString(R.string.easter_score_format, score)
+
+        if (life == 0) {
+            showGameOverDialog("Полоса опустела! Игра окончена.")
         } else {
             nextQuestion()
         }
     }
 
     private fun generateExpression(): Pair<String, Boolean> {
-        val a = Random.nextInt(1, 200)
-        val b = Random.nextInt(1, 200)
+        val a = Random.nextInt(1, 100)
+        val b = Random.nextInt(1, 100)
         val sum = a + b
-        // С вероятностью 50% подменяем результат
         val displayed = if (Random.nextBoolean()) sum else sum + Random.nextInt(-5, 6)
         val expression = "$a + $b = $displayed?"
         val isCorrect = (displayed == sum)
         return expression to isCorrect
     }
 
-    private fun endGame() {
+    private fun showGameOverDialog(msg: String) {
         timer.cancel()
-        // Можно показать итоговое окно или просто закрыть Activity
-        val finalMessage = "Игра окончена!\nВаш счёт: $score"
-        val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
-            .setTitle("Результат")
-            .setMessage(finalMessage)
-            .setPositiveButton("OK") { _, _ ->
-                finish()
-            }
-            .create()
-        dialog.show()
+        AlertDialog.Builder(this)
+            .setTitle("Итог")
+            .setMessage("$msg\nВаш счёт: $score")
+            .setPositiveButton("OK") { _, _ -> finish() }
+            .setCancelable(false)
+            .show()
     }
 
     override fun onDestroy() {
