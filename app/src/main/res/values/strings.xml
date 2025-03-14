@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">SMS Forwarder Telegram</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="save_token">Сохранить токен</string>
+    <string name="enter_telegram_bot_token">Введите Telegram Bot Token</string>
+    <string name="logs">Логи:</string>
+    <string name="rename_sims">Переименовать SIM-карты:</string>
+    <string name="sim1_hint">Имя для SIM1</string>
+    <string name="sim2_hint">Имя для SIM2</string>
+    <string name="select_senders">Выберите отправителей для пересылки:</string>
+    <string name="add_manual_sender">Добавить вручную в список</string>
+    <string name="enter_manual_sender">Введите отправителя вручную</string>
+    <string name="save_settings">Сохранить настройки</string>
+
+    <!-- Новые -->
+    <string name="menu_about">О программе</string>
+    <string name="title_about">О программе</string>
+    <string name="author_info">автор программы влад кунякин пользуйтесь с умом. безума ненадо</string>
+    <string name="disable_battery">Отключить энергосбережение</string>
+    <string name="service_started">Сервис запущен в фоновом режиме</string>
+    <string name="service_already_disabled">Уже отключено</string>
+    <string name="service_off">Остановить фоновый сервис</string>
+    <string name="service_on">Запустить фоновый сервис</string>
+</resources>
