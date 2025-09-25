@@ -24,7 +24,7 @@
 ## Инструкция по сборке
 1. Склонировать репозиторий:
 ```
-git clone https://github.com/gitisgithub/SMSForwarder.git
+git clone https://github.com/nomorecoolnicknames/SMSForwarder.git
 cd SMSForwarder
 ```
 
