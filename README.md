@@ -24,8 +24,8 @@
 ## Инструкция по сборке
 1. Склонировать репозиторий:
 ```
-git clone https://github.com/gitisgithub/SMSForwader.git
-cd SMSForwader
+git clone https://github.com/gitisgithub/SMSForwarder.git
+cd SMSForwarder
 ```
 
 2. **Открыть** проект в Android Studio.
